@@ -1,0 +1,19 @@
+Source: tarantool-synchronized
+Priority: optional
+Section: database
+Maintainer: Roman Tsisyk <roman@tarantool.org>
+Build-Depends: debhelper (>= 9), tarantool (>= 1.6.8.0)
+Standards-Version: 3.9.8
+Homepage: https://github.com/tarantool/synchronized
+Vcs-Git: git://github.com/tarantool/synchronized.git
+Vcs-Browser: https://github.com/tarantool/synchronized
+
+Package: tarantool-synchronized
+Architecture: all
+Depends: tarantool (>= 1.7.2.0), ${shlibs:Depends}, ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
+Description: Critical sections for Tarantool
+ The `synchronized` function ensures that one fiber does not enter
+ a critical section of code while another fiber is in the critical section.
+ If another fiber tries to enter a critical section, it will wait, block,
+ until the key is released.

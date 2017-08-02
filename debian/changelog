@@ -1,0 +1,5 @@
+tarantool-synchronized (0.1.0-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Roman Tsisyk <roman@tarantool.org>  Wed, 2 Aug 2017 15:25:00 +0300
