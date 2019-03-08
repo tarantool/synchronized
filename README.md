@@ -25,7 +25,6 @@ local fiber = require('fiber')
 local synchronized = require('synchronized')
 
 -- basic synchronization
-local result = {}
 local function criticalsection(id)
     print(string.format("%d: enter", id))
     fiber.yield() -- do some work
@@ -35,7 +34,11 @@ local lock = "somekey"
 local function worker(id)
     synchronized(lock, criticalsection, id)
 end
-for i=1,3 do fiber.create(worker, i, join) end
+for i=1,3 do fiber.create(worker, i) end
+for i=4,6 do
+    fiber.create(worker, i)
+    fiber.sleep(1)
+end
 ```
 
 Output:
@@ -48,3 +51,9 @@ Output:
     2: leave
     3: enter
     3: leave
+    4: enter
+    4: leave
+    5: enter
+    5: leave
+    6: enter
+    6: leave

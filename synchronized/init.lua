@@ -1,7 +1,7 @@
 local fiber = require('fiber')
 
-local function synchronized_call_tail(cond, status, ...)
-    cond:signal()
+local function synchronized_call_tail(channel, status, ...)
+    channel:put(1)
     if not status then
         error((...)) -- rethrow error
     end
@@ -12,19 +12,18 @@ local function synchronized_call(locks, key, fun, ...)
     if type(locks) ~= 'table' or key == nil or fun == nil then
         error('Usage: synchronized(key, fun, ...)')
     end
-    local cond = locks[key]
-    if cond ~= nil then
-        cond:wait()
+    local channel = locks[key]
+    if channel ~= nil then
+        channel:get()
     else
-        cond = fiber.cond()
-        locks[key] = cond
+        channel = fiber.channel()
+        locks[key] = channel
     end
-    return synchronized_call_tail(cond, pcall(fun, ...))
+    return synchronized_call_tail(channel, pcall(fun, ...))
 end
 
 local synchronized_mt = {
     __call = synchronized_call;
-    __mode = 'v'; -- weak table by value
 }
 
 local function synchronized_new()
