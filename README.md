@@ -48,3 +48,7 @@ Output:
     2: leave
     3: enter
     3: leave
+
+## See also
+
+There is alternative implementation of synchronization primitives [moonlibs/sync](https://github.com/moonlibs/sync#mutex-lock-with-deadlock-detection)
